@@ -1,3 +1,5 @@
 <resources>
     <string name="app_name">AgendaJson</string>
+    <string name="filtar">Filtar</string>
+    <string name="ayuda">Ayuda</string>
 </resources>
