@@ -18,11 +18,13 @@ import com.example.agendajson.model.Usuario
 import com.google.gson.Gson
 import androidx.appcompat.widget.Toolbar
 import com.example.agendajson.ui_dialog.DialogAyuda
+import com.example.agendajson.ui_dialog.DialogUser
 import com.example.agendajson.ui_dialog.DialogoFiltar
 import com.google.android.material.snackbar.Snackbar
 import org.json.JSONObject
 
-class MainActivity : AppCompatActivity(), DialogoFiltar.OnDialgoGeneralListener {
+class MainActivity : AppCompatActivity(), DialogoFiltar.OnDialgoGeneralListener,
+    AdaptadorUsuario.OnUserAdapterListener {
     private lateinit var binding: ActivityMainBinding
     private val urlBase: String = "https://dummyjson.com/users"
 
@@ -120,6 +122,11 @@ class MainActivity : AppCompatActivity(), DialogoFiltar.OnDialgoGeneralListener 
         } else {
             realizarJSON("$urlBase/filter?key=gender&value=$genero")
         }
+    }
+
+    override fun onDetalleSelected(usuario: Usuario) {
+        val dialogUser: DialogUser = DialogUser.newInstance(usuario)
+        dialogUser.show(supportFragmentManager, null)
     }
 }
 
