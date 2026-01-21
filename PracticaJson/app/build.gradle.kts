@@ -4,13 +4,13 @@ plugins {
 }
 
 android {
-    namespace = "com.example.agendajson"
+    namespace = "com.example.practicajson"
     compileSdk {
         version = release(36)
     }
 
     defaultConfig {
-        applicationId = "com.example.agendajson"
+        applicationId = "com.example.practicajson"
         minSdk = 24
         targetSdk = 36
         versionCode = 1
@@ -35,15 +35,15 @@ android {
     kotlinOptions {
         jvmTarget = "11"
     }
-    viewBinding {
-        enable = true;
+    viewBinding{
+        enable = true
     }
 }
 
 dependencies {
-    implementation("com.github.bumptech.glide:glide:4.16.0")
     implementation("com.android.volley:volley:1.2.1")
     implementation("com.google.code.gson:gson:2.13.2")
+    implementation("com.github.bumptech.glide:glide:4.16.0")
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.appcompat)
     implementation(libs.material)
