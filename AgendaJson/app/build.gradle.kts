@@ -35,13 +35,13 @@ android {
     kotlinOptions {
         jvmTarget = "11"
     }
-    viewBinding{
+    viewBinding {
         enable = true;
     }
 }
 
 dependencies {
-    // Meter Volley como dependencia
+    implementation("com.github.bumptech.glide:glide:4.16.0")
     implementation("com.android.volley:volley:1.2.1")
     implementation("com.google.code.gson:gson:2.13.2")
     implementation(libs.androidx.core.ktx)
