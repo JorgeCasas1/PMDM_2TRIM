@@ -17,11 +17,14 @@ import com.example.agendajson.databinding.ActivityMainBinding
 import com.example.agendajson.model.Usuario
 import com.google.gson.Gson
 import androidx.appcompat.widget.Toolbar
-import com.example.agendajson.ui.dialog.DialogoAyuda
+import com.example.agendajson.ui.dialog.DialogAyuda
+import com.example.agendajson.ui.dialog.DialogoFiltar
+import com.google.android.material.snackbar.Snackbar
 import org.json.JSONObject
 
-class MainActivity : AppCompatActivity() {
-    lateinit var binding: ActivityMainBinding
+class MainActivity : AppCompatActivity(), DialogoFiltar.OnDialgoGeneralListener {
+    private lateinit var binding: ActivityMainBinding
+    private val urlBase: String = "https://dummyjson.com/users"
 
     // private lateinit var listaUsuarios: ArrayList<Usuario> El adaptador se crea con la lista vacia
     private lateinit var adaptadorUsuario: AdaptadorUsuario
@@ -34,7 +37,7 @@ class MainActivity : AppCompatActivity() {
         setSupportActionBar(binding.toolbar)
         instancias()
         initGUI()
-        realizarJSON()
+        realizarJSON(urlBase)
     }
 
     private fun instancias() {
@@ -48,14 +51,18 @@ class MainActivity : AppCompatActivity() {
     }
 
 
-    private fun realizarJSON() {
+    private fun realizarJSON(url: String) {
+        Log.v("Entra", "Hola realizada")
+
         // peticion a crear -> JSONObjectRequest
-        val url = "https://dummyjson.com/users"
-        val request: JsonObjectRequest = JsonObjectRequest(url, { procesarPeticionJSON(it) }, {
+        val request: JsonObjectRequest = JsonObjectRequest(url, {
+            Log.v("Entra", "entrada")
+            procesarPeticionJSON(it)
+        }, {
             Log.v("error", "Error en la conexion")
         })
         // Añadir a la cola de peticiones
-        //2. Añadir a la cola las peticiones
+        // 2. Añadir a la cola las peticiones
         Volley.newRequestQueue(applicationContext).add(request)
         // Meter dependencia GSON en dependencias implementation 'com.google.code.gson:gson:2.13.2'
         // quicktype metemos en la url en el url https://dummyjson.com/users/1
@@ -64,6 +71,8 @@ class MainActivity : AppCompatActivity() {
 
     private fun procesarPeticionJSON(param: JSONObject) {
         val gson: Gson = Gson()
+        Log.v("Entra", "Hola")
+
         val listaJson = arrayListOf<Usuario>()
         // En el log cat si podemos conexion podemos ver el JSON
         val usuariosJSONArray = param.getJSONArray("users")
@@ -82,20 +91,35 @@ class MainActivity : AppCompatActivity() {
         menuInflater.inflate(R.menu.menu_main, menu)
         return super.onCreateOptionsMenu(menu)
     }
+
     // Sirve para mostrar la logica aplicada del ui.dialog
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         when (item.itemId) {
             R.id.menu_filtrar -> {
-
+                // Llamamos a dialogFiltrar para poder aplicar la lógica de la clase
+                val dialogFiltrar: DialogoFiltar = DialogoFiltar()
+                dialogFiltrar.show(supportFragmentManager, null)
             }
 
             R.id.menu_ayuda -> {
-                val dialogAyuda = DialogoAyuda()
+                val dialogAyuda = DialogAyuda()
                 dialogAyuda.show(supportFragmentManager, null)
             }
 
         }
         return super.onOptionsItemSelected(item)
+    }
+
+    override fun onGeneroSelected(genero: String) {
+        /*Snackbar.make(binding.root, "El genero seleccionado es ${genero}", Snackbar.LENGTH_SHORT)
+            .show()*/
+        // Llamamos al metodo realizar JSON
+        adaptadorUsuario.limpiarUsuario()
+        if (genero == "all") {
+            realizarJSON(urlBase)
+        } else {
+            realizarJSON("$urlBase/filter?key=gender&value=$genero")
+        }
     }
 }
 

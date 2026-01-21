@@ -1,26 +1,35 @@
 package com.example.agendajson.ui.dialog
 
-import android.app.AlertDialog
 import android.app.Dialog
 import android.os.Bundle
+import android.util.Log
+import androidx.appcompat.app.AlertDialog
 import androidx.fragment.app.DialogFragment
 
-class DialogoAyuda: DialogFragment() {
+class DialogAyuda : DialogFragment() {
+
     override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
-        // 1. Crear un builder nos permite saber que va en los botones, listas....
+
+        // 1. Crea un builder
         val builder: AlertDialog.Builder = AlertDialog.Builder(requireContext())
-
         // titulo
-        builder.setTitle("Selecciona un género a filtar")
-        // msj lista
-        builder.setMessage("Esta app es realizada por Jorge Casas")
-        // botones -> neutro negativo/positivo
-        builder.setPositiveButton("SI",{view,posicion->
+        builder.setTitle("Selecciona un genero a filtrar")
+        // mensaje - lista
+        builder.setMessage("Esta app es realizada por Borja Martin Herrera")
+        // botones ->  neutra       negativo/positivo
 
+        builder.setNeutralButton("CANCELAR", { _, _ ->
+            Log.v("dialogo", "Pulsado boton CANCELAR")
         })
 
+        builder.setNegativeButton("NO", { _, _ ->
+            Log.v("dialogo", "Pulsado boton NO")
+        })
+
+        builder.setPositiveButton("SI", { _, _ ->
+            Log.v("dialogo", "Pulsado boton SI")
+        })
         // 2. Creo el dialogo
         return builder.create()
-
     }
 }

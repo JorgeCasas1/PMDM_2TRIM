@@ -1,6 +1,7 @@
 package com.example.agendajson.adapter
 
 import android.content.Context
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -12,6 +13,7 @@ import com.example.agendajson.R
 import com.example.agendajson.databinding.ActivityMainBinding
 import com.example.agendajson.databinding.ItemUsuarioBinding
 import com.example.agendajson.model.Usuario
+import kotlin.math.log
 
 
 class AdaptadorUsuario(val contexto: Context) :
@@ -61,6 +63,11 @@ class AdaptadorUsuario(val contexto: Context) :
         listaUsuarios.add(usuario)
         // Se le mete el -1 porque se empieza la lista desde el 0 (esto es pq queremos actualizar la ultima posicion)
         notifyItemInserted(listaUsuarios.size-1)
+        Log.v("Entra","Hola")
+    }
+    fun limpiarUsuario(){
+        listaUsuarios.clear()
+        notifyDataSetChanged()
     }
 
 }
